@@ -8,7 +8,8 @@ namespace Suppliers.Web.Consumer;
 public class SupplyConsumer : BackgroundService
 {
     
-    private const string BootstrapServers = "localhost:29094";
+    //private const string BootstrapServers = "localhost:29094";
+    private const string BootstrapServers = "kafka:9092";
     private const string GroupId = "SupplyConsumer";
     private const string Topic = "mp3-request-restock";
     

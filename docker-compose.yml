@@ -1,0 +1,18 @@
+﻿version: '3.8'
+
+services:
+  suppliers.web:
+    image: suppliers.web
+    build:
+      context: .
+      dockerfile: src/Suppliers.Web/Dockerfile
+    ports:
+      - "8081:80"
+    networks:
+        - kafka
+networks:
+  kafka:
+    external: true
+    
+    
+  
