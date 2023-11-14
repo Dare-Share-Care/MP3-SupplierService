@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suppliers.Web.Data;
 
@@ -10,9 +11,11 @@ using Suppliers.Web.Data;
 namespace Suppliers.Web.Migrations
 {
     [DbContext(typeof(SupplierContext))]
-    partial class SupplierContextModelSnapshot : ModelSnapshot
+    [Migration("20231114174622_Supply")]
+    partial class Supply
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

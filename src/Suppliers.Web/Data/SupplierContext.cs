@@ -5,7 +5,7 @@ namespace Suppliers.Web.Data;
 
 public class SupplierContext : DbContext
 { 
-    public DbSet<Product> Products {get; set;} = null!;
+    public DbSet<Supply> Supplies {get; set;} = null!;
     
     public SupplierContext(DbContextOptions<SupplierContext> options) : base(options)
     {
@@ -14,6 +14,6 @@ public class SupplierContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Set primary keys
-        modelBuilder.Entity<Product>().HasKey(e => e.Id);
+        modelBuilder.Entity<Supply>().HasKey(e => e.Id);
     }
 }

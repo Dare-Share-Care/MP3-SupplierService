@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Suppliers.Web.Interfaces.DomainServices;
+using Suppliers.Web.Model.Dto;
 
 namespace Suppliers.Web.Controller;
 
@@ -13,19 +14,27 @@ public class SupplierController : ControllerBase
     {
         _supplierService = supplierService;
     }
-    
-    
-    [HttpGet]
-    public async Task<IActionResult> GetProductsAsync()
+
+    [HttpPost("ConsumeSupply")]
+    public IActionResult ConsumeSupply([FromBody] SupplyDto supply)
     {
-        var products = await _supplierService.GetProducts();
-        return Ok(products);
-    }
-    
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProductByIdAsync(int id)
-    {
-        var product = await _supplierService.GetProductById(id);
-        return Ok(product);
+        if (supply == null)
+        {
+            return BadRequest("Invalid supply data.");
+        }
+
+        try
+        {
+            // Call the service to consume the supply
+            _supplierService.CreateSupplyAsync(supply);
+
+            // Optionally, return a success response
+            return Ok("Supply consumption initiated successfully.");
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or handle it based on your application requirements
+            return StatusCode(500, $"Error consuming supply: {ex.Message}");
+        }
     }
 }

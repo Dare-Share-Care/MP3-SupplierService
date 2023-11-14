@@ -3,7 +3,7 @@ using Suppliers.Web.Entities;
 
 namespace Suppliers.Web.Specifications;
 
-public sealed class ProductByIdSpec : Specification<Product>
+public sealed class ProductByIdSpec : Specification<Supply>
 {
     public ProductByIdSpec(int id)
     {

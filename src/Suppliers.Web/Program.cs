@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Suppliers.Web.Consumer;
 using Suppliers.Web.Data;
 using Suppliers.Web.Interfaces.DomainServices;
 using Suppliers.Web.Interfaces.Repositories;
@@ -36,6 +37,12 @@ builder.Services.AddDbContext<SupplierContext>(options =>
 builder.Services.AddScoped<ISupplierService, SupplierService>();
 
 //Background services
+
+// build kafka producer
+//builder.Services.AddSingleton<RequestSupplies>();
+
+//kafka consumer
+builder.Services.AddHostedService<SupplyConsumer>();
 
 //Repositories
 builder.Services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));

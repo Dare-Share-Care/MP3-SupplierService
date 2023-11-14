@@ -1,4 +1,7 @@
-﻿using Suppliers.Web.Entities;
+﻿using System.Text.Json;
+using Confluent.Kafka;
+using Suppliers.Web.Data;
+using Suppliers.Web.Entities;
 using Suppliers.Web.Interfaces.DomainServices;
 using Suppliers.Web.Interfaces.Repositories;
 using Suppliers.Web.Model.Dto;
@@ -8,35 +11,44 @@ namespace Suppliers.Web.Service;
 
 public class SupplierService : ISupplierService
 {
+    private readonly IRepository<Supply> _supplyRepository;
+    private readonly IReadRepository<Supply> _productReadRepository;
     
-    private readonly IReadRepository<Product> _productReadRepository;
-
-    public SupplierService(IReadRepository<Product> productReadRepository)
+    public SupplierService(IRepository<Supply> supplyRepository, IReadRepository<Supply> productReadRepository)
     {
+        _supplyRepository = supplyRepository;
         _productReadRepository = productReadRepository;
     }
 
-    public async Task<List<ProductDto>> GetProducts()
+    public async Task CreateSupplyAsync(SupplyDto supply)
     {
-        var products = await _productReadRepository.ListAsync();
-        return products.Select(p => new ProductDto
+        var newSupply = new Supply
         {
-            Id = p.Id,
-            product = p.product,
-            quantity = p.quantity
-        }).ToList();
-    }
-    
-    
-    public async Task<ProductDto> GetProductById(int id)
-    {
-        var product = await _productReadRepository.FirstOrDefaultAsync(new ProductByIdSpec(id));
-        return new ProductDto
-        {
-            Id = product.Id,
-            product = product.product,
-            quantity = product.quantity
+            Name = supply.Name,
+            Quantity = supply.Quantity
         };
+
+        // Save the supply to the database
+        await _supplyRepository.AddAsync(newSupply);
+
+        // Save changes to the database
+        await _supplyRepository.SaveChangesAsync();
+    }
+
+   //public async Task<SupplyDto> GetSupply(int id)
+   //{
+   //    var supply = await _supplyRepository.GetByIdAsync(id);
+
+   //    if (supply != null)
+   //    {
+   //        return new SupplyDto
+   //        {
+   //            Id = supply.Id,
+   //            Name = supply.Name,
+   //            Quantity = supply.Quantity
+   //        };
+   //    }
+
+   //    return null; // or throw an exception, handle as needed
     }
     
-}
