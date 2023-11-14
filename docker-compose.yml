@@ -13,6 +13,3 @@ services:
 networks:
   kafka:
     external: true
-    
-     
-   
