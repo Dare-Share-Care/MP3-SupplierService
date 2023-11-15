@@ -3,6 +3,7 @@ using Suppliers.Web.Interfaces.DomainServices;
 using Suppliers.Web.Interfaces.Repositories;
 using Suppliers.Web.Model.Dto;
 using Suppliers.Web.Producer;
+using Suppliers.Web.Specifications;
 using DeliveryStatus = Suppliers.Web.Entities.DeliveryStatus;
 
 namespace Suppliers.Web.Service;
@@ -39,44 +40,39 @@ public class SupplierService : ISupplierService
 
 
     //Method produce a msg back to inventory that the supply has been delivered
-    public async Task<RestockSuppliesDto> SendSuppliesToInv(RestockSuppliesDto supplies )
+    public async Task<RestockSuppliesDto> SendSuppliesToInv()
     {
-        //Map to DTO
-        var SupplyDtoResult = new RestockSuppliesDto
+        var spec = new RestockByStatusSpec();
+        var supplies = await _productReadRepository.ListAsync(spec);
+
+        // Assuming RestockSuppliesDto does not need an Id property
+        // If it does, you need to determine how to set that Id
+        var supplyDtoResult = new RestockSuppliesDto
         {
-            Id = supplies.Id,
-            Supplies = supplies.Supplies.Select(supply => new SupplyDto
+            // If you have an Id for RestockSuppliesDto, set it here
+            // Id = ???,
+            Supplies = supplies.Select(supply => new SupplyDto
             {
                 Id = supply.Id,
                 Name = supply.Name,
                 Quantity = supply.Quantity,
+                Status = (Model.Dto.DeliveryStatus)supply.Status // Assuming you have the same enum values in both places
             }).ToList()
         };
-        
-        
-        //Send order created event
-        await SendOrderCreatedEventAsync(SupplyDtoResult);
 
-        //Return order
-        return SupplyDtoResult;
+        // Send order created event
+        await SendSuppliesEventAsync(supplyDtoResult);
+
+        // Return order
+        return supplyDtoResult;
     }
+    
 
-    private async Task SendOrderCreatedEventAsync(RestockSuppliesDto supplies)
+
+    private async Task SendSuppliesEventAsync(RestockSuppliesDto supplies)
     {
         await _kafkaProducer.ProduceAsync("mp3-restock", supplies);
     }
     
-    
-    
-    
     }
-    
-    
-    
-    
-    
-   
-    
-    
-    
     

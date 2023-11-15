@@ -7,6 +7,8 @@ public class SupplyProducer : IDisposable
 {
     
     private readonly IProducer<string, string> _producer;
+    
+    //docker
     private const string BootstrapServers = "kafka:9092";
     
     

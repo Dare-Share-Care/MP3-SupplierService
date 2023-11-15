@@ -7,10 +7,10 @@ namespace Suppliers.Web.Consumer;
 
 public class SupplyConsumer : BackgroundService
 {
-    //WOrks on docker
+    //works on Local
     //private const string BootstrapServers = "localhost:29094";
     
-    //works on local
+    //works on Docker
     private const string BootstrapServers = "kafka:9092";
     private const string GroupId = "SupplyConsumer";
     private const string Topic = "mp3-request-restock";

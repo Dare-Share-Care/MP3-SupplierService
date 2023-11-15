@@ -42,12 +42,12 @@ public class SupplierController : ControllerBase
 
 
     [HttpPost("SendSupply")]
-    public async Task<IActionResult> SendSupply([FromBody] RestockSuppliesDto supply)
+    public async Task<IActionResult> SendSupply()
     {
 
         // Call the service to consume the supply
-        var fisk= await _supplierService.SendSuppliesToInv(supply);
-        return Ok(fisk);
+        var suppliesToBeSent = await _supplierService.SendSuppliesToInv();
+        return Ok(suppliesToBeSent);
 
     }
     
