@@ -9,7 +9,7 @@ public sealed class RestockByStatusSpec : Specification<Supply>
    
     public RestockByStatusSpec()
     {
-        Query.Where(p => p.Status != DeliveryStatus.Delivered);
+        Query.Where(p => p.Status != DeliveryStatus.Delivered); 
 
     }
 
