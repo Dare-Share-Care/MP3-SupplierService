@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suppliers.Web.Entities;
 
 namespace Suppliers.Web.Data;
@@ -15,5 +16,12 @@ public class SupplierContext : DbContext
     {
         //Set primary keys
         modelBuilder.Entity<Supply>().HasKey(e => e.Id);
+        
+        var converter = new EnumToStringConverter<DeliveryStatus>();
+
+        modelBuilder
+            .Entity<Supply>()
+            .Property(e => e.Status)
+            .HasConversion(converter);
     }
 }

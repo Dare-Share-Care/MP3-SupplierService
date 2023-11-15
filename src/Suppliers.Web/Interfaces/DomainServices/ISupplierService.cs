@@ -6,4 +6,6 @@ public interface ISupplierService
 {
     
     Task CreateSupplyAsync(SupplyDto supplies);
+    
+    Task<RestockSuppliesDto> SendSuppliesToInv(RestockSuppliesDto supplies);
 }

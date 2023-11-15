@@ -3,6 +3,7 @@ using Suppliers.Web.Consumer;
 using Suppliers.Web.Data;
 using Suppliers.Web.Interfaces.DomainServices;
 using Suppliers.Web.Interfaces.Repositories;
+using Suppliers.Web.Producer;
 using Suppliers.Web.Service;
 
 const string policyName = "AllowOrigin";
@@ -39,6 +40,8 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 //Background services
 
 // build kafka producer
+builder.Services.AddSingleton<SupplyProducer>();
+
 //builder.Services.AddSingleton<RequestSupplies>();
 
 //kafka consumer

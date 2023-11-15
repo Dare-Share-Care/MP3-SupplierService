@@ -37,4 +37,18 @@ public class SupplierController : ControllerBase
             return StatusCode(500, $"Error consuming supply: {ex.Message}");
         }
     }
+
+
+
+
+    [HttpPost("SendSupply")]
+    public async Task<IActionResult> SendSupply([FromBody] RestockSuppliesDto supply)
+    {
+
+        // Call the service to consume the supply
+        var fisk= await _supplierService.SendSuppliesToInv(supply);
+        return Ok(fisk);
+
+    }
+    
 }

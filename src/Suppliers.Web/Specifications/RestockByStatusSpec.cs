@@ -1,12 +1,19 @@
 ﻿using Ardalis.Specification;
 using Suppliers.Web.Entities;
 
+
 namespace Suppliers.Web.Specifications;
 
-public sealed partial class ProductByIdSpec : Specification<Supply>
+public sealed class RestockByStatusSpec : Specification<Supply>
 {
-    public ProductByIdSpec(int id)
+   
+    public RestockByStatusSpec()
     {
         Query.Where(p => p.Status != DeliveryStatus.Delivered);
+
     }
+
 }
+
+
+

@@ -9,7 +9,7 @@ services:
     ports:
       - "8081:80"
     networks:
-        - kafka
+                - kafka
 networks:
   kafka:
     external: true
